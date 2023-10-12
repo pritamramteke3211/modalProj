@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "812766118954",
+    "project_id": "modalproj-7d44a",
+    "storage_bucket": "modalproj-7d44a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:812766118954:android:56cdb4fd5c9ababb5d6f53",
+        "android_client_info": {
+          "package_name": "com.modalproj_1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJlWhZreYZTPyz8hrVpePFXIhto36_jOM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
