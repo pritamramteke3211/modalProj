@@ -7,7 +7,7 @@ import fontFamily from '../theme/fontFamily';
 import commonStyles from '../utils/commonStyles';
 import FlexSBContainer from './FlexSBContainer';
 
-const BackButton = (_) => {
+const BackButton = _ => {
   const {onCustomPress} = _;
   const navigation = useNavigation();
   return (
@@ -17,11 +17,20 @@ const BackButton = (_) => {
         !onCustomPress && navigation.goBack();
       }}
       containerStyle={{justifyContent: 'flex-start'}}>
-      <Image style={{width: 20, height: 20, resizeMode: 'contain'}} source={imagePath.back} />
-      <Text style={{...commonStyles.fontSize14, fontFamily: fontFamily.bold, color: colors.black}}>{'Back'}</Text>
+      <Image
+        style={{width: 20, height: 20, resizeMode: 'contain'}}
+        source={imagePath.back}
+      />
+      <Text
+        style={{
+          ...commonStyles.fontSize14,
+          fontFamily: fontFamily.bold,
+          color: colors.black,
+        }}>
+        {'Back'}
+      </Text>
     </FlexSBContainer>
   );
 };
 
 export default BackButton;
-

@@ -7,6 +7,7 @@ import com.facebook.react.defaults.DefaultReactActivityDelegate;
 import android.os.Bundle;
 
 
+
 public class MainActivity extends ReactActivity {
 
   /**
@@ -37,3 +38,4 @@ public class MainActivity extends ReactActivity {
     super.onCreate(null);
   }
 }
+

@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
-import {moderateScale, moderateScaleVertical} from '../../theme/responsiveSize';
+import {rspW, rspH} from '../../theme/responsiveSize';
 
 const EmergencySkeltonView = () => {
   return (
@@ -22,8 +22,15 @@ const EmergencySkeltonView = () => {
 const styles = StyleSheet.create({
   margin: {
     padding: 15,
-     flexDirection: 'row'},
-  viewContainer: {width: 45, height: 45, borderRadius: 20, marginEnd: moderateScale(20), marginBottom: moderateScaleVertical(18)},
+    flexDirection: 'row',
+  },
+  viewContainer: {
+    width: 45,
+    height: 45,
+    borderRadius: 20,
+    marginEnd: rspW(2),
+    marginBottom: rspH(18),
+  },
 });
 
 export default EmergencySkeltonView;

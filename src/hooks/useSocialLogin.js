@@ -1,4 +1,7 @@
-import {GoogleSignin, statusCodes} from '@react-native-google-signin/google-signin';
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
 
 export default function useSocialLogin() {
   GoogleSignin.configure();
@@ -14,13 +17,13 @@ export default function useSocialLogin() {
         if (error?.code === statusCodes.SIGN_IN_CANCELLED) {
           return error;
         } else if (error?.code === statusCodes.IN_PROGRESS) {
-          console.log(error);
+          console.log('googleLogin', error);
           return error;
         } else if (error?.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-          console.log(error);
+          console.log('googleLogin', error);
           return error;
         } else {
-          console.log(error);
+          console.log('googleLogin', error);
           return error;
         }
       }

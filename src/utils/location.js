@@ -1,14 +1,13 @@
-import { PermissionsAndroid, Platform } from 'react-native';
-import Geolocation from 'react-native-geolocation-service'
+import {Alert, PermissionsAndroid, Platform} from 'react-native';
+import Geolocation from 'react-native-geolocation-service';
 
 export const getCurrentLocation = () =>
   new Promise(async (resolve, reject) => {
     Geolocation.getCurrentPosition(
-      (position) => {
-        console.log(position);
+      position => {
         resolve(position);
       },
-      (error) => {
+      error => {
         reject(error.message);
         console.log(error.code, error.message);
       },
@@ -16,12 +15,13 @@ export const getCurrentLocation = () =>
     );
   });
 
-
-  export const locationPermission = () =>
+export const locationPermission = () =>
   new Promise(async (resolve, reject) => {
     if (Platform.OS === 'ios') {
       try {
-        const permissionStatus = await Geolocation.requestAuthorization('whenInUse');
+        const permissionStatus = await Geolocation.requestAuthorization(
+          'whenInUse',
+        );
         if (permissionStatus === 'granted') {
           return resolve('granted');
         }
@@ -31,7 +31,9 @@ export const getCurrentLocation = () =>
       }
       return;
     }
-    return PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION)
+    return PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+    )
       .then(granted => {
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
           return resolve('granted');

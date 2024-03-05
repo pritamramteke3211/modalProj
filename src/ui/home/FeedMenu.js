@@ -1,16 +1,19 @@
 import * as React from 'react';
 import {Text, StyleSheet, Image, Pressable, Alert} from 'react-native';
-import {Menu, MenuOption, MenuOptions, MenuTrigger} from 'react-native-popup-menu';
+import {
+  Menu,
+  MenuOption,
+  MenuOptions,
+  MenuTrigger,
+} from 'react-native-popup-menu';
 import {useDispatch, useSelector} from 'react-redux';
 import imagePath from '../../config/imagePath';
 import {deleteOwnFeed} from '../../redux/actions/home';
 import {openReportSheet} from '../../redux/reducer/ReportSlice/reportSlice';
 import commonStyles from '../../utils/commonStyles';
-// import {showError} from '../../utils/utils';
-import {moderateScaleVertical} from '../../theme/responsiveSize';
+import {rspH} from '../../theme/responsiveSize';
 import {openEditPostModal} from '../../redux/reducer/ReportSlice/editPostSlice';
-import { showError } from '../../utils/showMsg';
-
+import {showError} from '../../utils/showMsg';
 
 const FeedMenu = React.forwardRef((_, refreshHandler) => {
   const {item} = _;
@@ -25,7 +28,7 @@ const FeedMenu = React.forwardRef((_, refreshHandler) => {
       await deleteOwnFeed({id: item?.id.toString()});
       refreshHandler?.current?.getProfileDetail();
     } catch (error) {
-      showError((error)?.message);
+      showError(error?.message);
     }
   };
 
@@ -44,11 +47,11 @@ const FeedMenu = React.forwardRef((_, refreshHandler) => {
     try {
       dispatch(openEditPostModal({isModalOpen: true, data: item}));
     } catch (error) {
-      showError((error)?.message);
+      showError(error?.message);
     }
   };
 
-  const onPressMenu = (type) => {
+  const onPressMenu = type => {
     menuRef.current?.close();
     if (myId) {
       if (type === 'delete') {
@@ -79,10 +82,14 @@ const FeedMenu = React.forwardRef((_, refreshHandler) => {
           }}>
           <MenuOption>
             <Pressable onPress={() => onPressMenu('delete')}>
-              <Text style={commonStyles.fontBold16}>{myId ? 'Delete' : 'Report'}</Text>
+              <Text style={commonStyles.fontBold16}>
+                {myId ? 'Delete' : 'Report'}
+              </Text>
             </Pressable>
             {myId && (
-              <Pressable style={{marginTop: moderateScaleVertical(20)}} onPress={() => onPressMenu('edit')}>
+              <Pressable
+                style={{marginTop: rspH(2.5)}}
+                onPress={() => onPressMenu('edit')}>
                 <Text style={commonStyles.fontBold16}>{'Edit Post'}</Text>
               </Pressable>
             )}

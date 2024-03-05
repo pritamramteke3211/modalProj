@@ -1,5 +1,15 @@
 import * as React from 'react';
-import {Text, View, StyleSheet, TextInput, Image, ScrollView, FlatList, Pressable, ActivityIndicator} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  TextInput,
+  Image,
+  ScrollView,
+  FlatList,
+  Pressable,
+  ActivityIndicator,
+} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import FlexSBContainer from '../../components/FlexSBContainer';
 import WrapperContainer from '../../components/WrapperContainer';
@@ -8,11 +18,10 @@ import imagePath from '../../config/imagePath';
 import navigationString from '../../config/navigationString';
 import {globalSearch} from '../../redux/actions/home';
 import colors from '../../theme/colors';
-import {moderateScaleVertical} from '../../theme/responsiveSize';
+import {rspH} from '../../theme/responsiveSize';
 import commonStyles from '../../utils/commonStyles';
 
-
-const GlobalSearch = (_) => {
+const GlobalSearch = _ => {
   const {navigation} = _;
   const handler = React.useRef();
   const [searchData, setSearchData] = React.useState({
@@ -40,7 +49,7 @@ const GlobalSearch = (_) => {
     };
   };
 
-  const search = async (text) => {
+  const search = async text => {
     try {
       const response = await globalSearch(text);
       setSearchData({
@@ -52,11 +61,11 @@ const GlobalSearch = (_) => {
     } catch (error) {
       setLoading(false);
       //   setPreSearchList([]);
-      console.log('Error', (error).message);
+      console.log('Error', error.message);
     }
   };
 
-  const handleOnSearch = debounce((text) => {
+  const handleOnSearch = debounce(text => {
     search(text);
   }, 1000);
 
@@ -65,10 +74,20 @@ const GlobalSearch = (_) => {
   }, []);
 
   const listEmptyComponent = () => {
-    return <View style={{flex: 1, justifyContent: 'center'}}>{loading ? <ActivityIndicator color={'red'} size={40} /> : <Text style={{...commonStyles.fontBold18, alignSelf: 'center'}}>{'No Feed found'}</Text>}</View>;
+    return (
+      <View style={{flex: 1, justifyContent: 'center'}}>
+        {loading ? (
+          <ActivityIndicator color={'red'} size={40} />
+        ) : (
+          <Text style={{...commonStyles.fontBold18, alignSelf: 'center'}}>
+            {'No Feed found'}
+          </Text>
+        )}
+      </View>
+    );
   };
 
-  const navigateToProfile = (item) => {
+  const navigateToProfile = item => {
     navigation.navigate(navigationString.OTHER_USER_PROFILE, {
       user: {
         user: item,
@@ -82,17 +101,34 @@ const GlobalSearch = (_) => {
         <Pressable onPress={() => navigation.goBack()}>
           <Image style={styles.imageStyle} source={imagePath.back} />
         </Pressable>
-        <TextInput onChangeText={handleOnSearch} style={{flex: 1, ...commonStyles.fontBold16}} placeholder={'Search'} placeholderTextColor={colors.grey} />
+        <TextInput
+          onChangeText={handleOnSearch}
+          style={{flex: 1, ...commonStyles.fontBold16}}
+          placeholder={'Search'}
+          placeholderTextColor={colors.grey}
+        />
       </FlexSBContainer>
       <View style={styles.scrollContainer}>
         <View style={styles.containerStyle}>
           <Text style={{...commonStyles.fontBold16}}>{'Recent'}</Text>
-          <ScrollView style={{marginTop: moderateScaleVertical(20)}} horizontal>
+          <ScrollView style={{marginTop: rspH(2.5)}} horizontal>
             {searchData?.users.map((item, index) => {
               return (
-                <Pressable onPress={() => navigateToProfile(item)} key={index} style={{marginEnd: 20}}>
-                  <FastImage style={styles.fastImageStyle} source={item?.profilePic ? {uri: FILE_BASE_URL + item?.profilePic} : imagePath.placeholder} />
-                  <Text style={{...commonStyles.fontBold16}}>{item?.firstName + ' ' + item?.lastName}</Text>
+                <Pressable
+                  onPress={() => navigateToProfile(item)}
+                  key={index}
+                  style={{marginEnd: 20}}>
+                  <FastImage
+                    style={styles.fastImageStyle}
+                    source={
+                      item?.profilePic
+                        ? {uri: FILE_BASE_URL + item?.profilePic}
+                        : imagePath.placeholder
+                    }
+                  />
+                  <Text style={{...commonStyles.fontBold16}}>
+                    {item?.firstName + ' ' + item?.lastName}
+                  </Text>
                 </Pressable>
               );
             })}
@@ -121,6 +157,11 @@ const styles = StyleSheet.create({
   container: {},
   imageStyle: {width: 20, height: 20, resizeMode: 'contain'},
   scrollContainer: {flex: 1, marginTop: 5, backgroundColor: colors.offWhite},
-  fastImageStyle: {width: 50, height: 50, borderRadius: 25, alignSelf: 'center'},
+  fastImageStyle: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    alignSelf: 'center',
+  },
   containerStyle: {padding: 10, backgroundColor: colors.white},
 });

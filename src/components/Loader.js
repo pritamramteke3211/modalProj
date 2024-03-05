@@ -7,10 +7,9 @@ import commonStyles from '../utils/commonStyles';
 const Loader = ({isLoading = false, modal = true}) => {
   if (isLoading && modal) {
     return (
-      <Modal
-      statusBarTranslucent transparent 
-      visible={isLoading}>
-        <View style={{...commonStyles.loader, backgroundColor: 'rgba(0,0,0,0.4)'}}>
+      <Modal statusBarTranslucent transparent visible={isLoading}>
+        <View
+          style={{...commonStyles.loader, backgroundColor: 'rgba(0,0,0,0.4)'}}>
           <SkypeIndicator size={55} color={colors.themeColor} />
         </View>
       </Modal>

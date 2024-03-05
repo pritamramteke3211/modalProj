@@ -9,7 +9,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
-  btnContainer: {justifyContent: 'flex-end', margin: 20},
+  btnContainer: {
+    justifyContent: 'flex-end',
+    margin: 20,
+  },
 });
 
 export default styles;

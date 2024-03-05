@@ -1,6 +1,22 @@
-
 import React, {useState, useEffect, useRef, useCallback} from 'react';
-import {Animated, Image, Text, StyleSheet, Dimensions, TouchableOpacity, TouchableWithoutFeedback, ActivityIndicator, View, Platform, SafeAreaView, TextInput, KeyboardAvoidingView, Keyboard, Pressable, ScrollView} from 'react-native';
+import {
+  Animated,
+  Image,
+  Text,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  ActivityIndicator,
+  View,
+  Platform,
+  SafeAreaView,
+  TextInput,
+  KeyboardAvoidingView,
+  Keyboard,
+  Pressable,
+  ScrollView,
+} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import GestureRecognizer from 'react-native-swipe-gestures';
 import {usePrevious} from '../../hooks/usePrevious';
@@ -11,16 +27,19 @@ import convertToProxyURL from 'react-native-video-cache';
 import commonStyles from '../../utils/commonStyles';
 import {FILE_BASE_URL} from '../../config/constant';
 const {width, height} = Dimensions.get('window');
-import {deleteEmergencyPost, reportEmpergencyPost, sendMessage} from '../../redux/actions/home';
+import {
+  deleteEmergencyPost,
+  reportEmpergencyPost,
+  sendMessage,
+} from '../../redux/actions/home';
 // import {Menu, MenuOption, MenuOptions, MenuProvider, MenuTrigger} from 'react-native-popup-menu';
 import imagePath from '../../config/imagePath';
 import {TouchableOpacity as TouchableOpacityGesture} from 'react-native-gesture-handler';
 import AudioStoryPlayer from './AudioStoryPlayer';
-import { showSuccess } from '../../utils/showMsg';
+import {showSuccess} from '../../utils/showMsg';
+import {scrn_height, scrn_width} from '../../theme/responsiveSize';
 
-
-
-export const StoryListItem = (props) => {
+export const StoryListItem = props => {
   const stories = props.stories;
   const userId = props.userId;
   const [load, setLoad] = useState(true);
@@ -29,8 +48,14 @@ export const StoryListItem = (props) => {
   const [content, setContent] = useState(
     stories?.map(x => {
       return {
-        type: x?.feed_medias && x?.feed_medias?.length > 0 ? x.feed_medias[0]?.mediaType?.toLocaleUpperCase() : 'TEXT',
-        image: x?.feed_medias && x?.feed_medias?.length > 0 ? x.feed_medias[0]?.name : '',
+        type:
+          x?.feed_medias && x?.feed_medias?.length > 0
+            ? x.feed_medias[0]?.mediaType?.toLocaleUpperCase()
+            : 'TEXT',
+        image:
+          x?.feed_medias && x?.feed_medias?.length > 0
+            ? x.feed_medias[0]?.name
+            : '',
         text: x?.description,
         backgroundColor: randomColorGenerator(),
         _id: x?.id,
@@ -44,15 +69,21 @@ export const StoryListItem = (props) => {
   const prevCurrentPage = usePrevious(props.currentPage);
 
   React.useEffect(() => {
-    const keyboardWillShowListener = Keyboard.addListener('keyboardDidShow', () => {
-      progress.stopAnimation();
-      setPressed(true);
-    });
+    const keyboardWillShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => {
+        progress.stopAnimation();
+        setPressed(true);
+      },
+    );
 
-    const keyboardWillHideListener = Keyboard.addListener('keyboardDidHide', () => {
-      setPressed(false);
-      startAnimation();
-    });
+    const keyboardWillHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        setPressed(false);
+        startAnimation();
+      },
+    );
     return () => {
       keyboardWillShowListener.remove();
       keyboardWillHideListener.remove();
@@ -86,9 +117,15 @@ export const StoryListItem = (props) => {
 
   useEffect(() => {
     if (!isNullOrWhitespace(prevCurrent)) {
-      if (current > prevCurrent && content[current - 1].image === content[current].image) {
+      if (
+        current > prevCurrent &&
+        content[current - 1].image === content[current].image
+      ) {
         start();
-      } else if (current < prevCurrent && content[current + 1].image === content[current].image) {
+      } else if (
+        current < prevCurrent &&
+        content[current + 1].image === content[current].image
+      ) {
         start();
       }
     }
@@ -179,7 +216,6 @@ export const StoryListItem = (props) => {
     }
   }
 
-
   function onTimedMetadata(_) {}
 
   const onPressSend = async () => {
@@ -193,7 +229,7 @@ export const StoryListItem = (props) => {
       Keyboard.dismiss();
       setMessage('');
     } catch (error) {
-      console.log((error)?.message);
+      console.log(error?.message);
     }
   };
 
@@ -208,17 +244,23 @@ export const StoryListItem = (props) => {
 
   const onPressMenu = async () => {
     try {
-      await reportEmpergencyPost({type: 1, postId: content[current]._id.toString(), description: 'test'});
+      await reportEmpergencyPost({
+        type: 1,
+        postId: content[current]._id.toString(),
+        description: 'test',
+      });
       showSuccess('Empergency post successfully reported');
       onSwipeDown();
     } catch (error) {
-      console.log((error)?.message);
+      console.log('Empergency pos', error?.message);
     }
   };
 
   const StoryMenu = useCallback(() => {
     return (
-      <Menu onClose={() => startAnimation()} onOpen={() => progress.stopAnimation()}>
+      <Menu
+        onClose={() => startAnimation()}
+        onOpen={() => progress.stopAnimation()}>
         <MenuTrigger style={{marginTop: 15, marginStart: 20}}>
           <Image style={styles.icon} source={imagePath.fi_more_vertical} />
         </MenuTrigger>
@@ -249,147 +291,199 @@ export const StoryListItem = (props) => {
 
   return (
     // <MenuProvider skipInstanceCheck>
-      <GestureRecognizer
-        onSwipeUp={onSwipeUp}
-        onSwipeDown={onSwipeDown}
-        config={config}
-        style={{
-          flex: 1,
-          backgroundColor: 'black',
-        }}>
-        <SafeAreaView>
-          <View style={styles.backgroundContainer}>
-            {content[current].type === 'VIDEOS' && (
-              <Video
-                repeat={false}
-                style={{width: width, height: height}}
-                source={{uri: convertToProxyURL(FILE_BASE_URL + content[current].image), shouldCache: true}}
-                maxBitRate={2000000}
-                useTextureView={false}
-                // onVideoLoad={() => start()}
-                onLoad={(event) => {
-                  start(event?.duration * 1000);
-                }}
-                onBuffer={(event) => {
-                  event?.isBuffering && progress.stopAnimation();
-                  setLoad(event?.isBuffering);
-                }}
-                resizeMode="contain"
-              />
-            )}
-            {content[current].type === 'IMAGE' && <FastImage onLoadEnd={() => start()} source={{uri: FILE_BASE_URL + content[current].image}} style={styles.image} />}
-            {content[current].type === 'TEXT' && (
-              <View
-                onLayout={() => {
-                  start(3000);
-                }}
-                style={{backgroundColor: content[current].backgroundColor, width: width, height: height, justifyContent: 'center'}}>
-                <Text style={{...commonStyles.fontBold20, color: colors.white, alignSelf: 'center'}}>{content[current].text}</Text>
+    <GestureRecognizer
+      onSwipeUp={onSwipeUp}
+      onSwipeDown={onSwipeDown}
+      config={config}
+      style={{
+        flex: 1,
+        backgroundColor: 'black',
+      }}>
+      <SafeAreaView>
+        <View style={styles.backgroundContainer}>
+          {content[current].type === 'VIDEOS' && (
+            <Video
+              repeat={false}
+              style={{width: scrn_width, height: scrn_height}}
+              source={{
+                uri: convertToProxyURL(FILE_BASE_URL + content[current].image),
+                shouldCache: true,
+              }}
+              maxBitRate={2000000}
+              useTextureView={false}
+              // onVideoLoad={() => start()}
+              onLoad={event => {
+                start(event?.duration * 1000);
+              }}
+              onBuffer={event => {
+                event?.isBuffering && progress.stopAnimation();
+                setLoad(event?.isBuffering);
+              }}
+              resizeMode="contain"
+            />
+          )}
+          {content[current].type === 'IMAGE' && (
+            <FastImage
+              onLoadEnd={() => start()}
+              source={{uri: FILE_BASE_URL + content[current].image}}
+              style={styles.image}
+            />
+          )}
+          {content[current].type === 'TEXT' && (
+            <View
+              onLayout={() => {
+                start(3000);
+              }}
+              style={{
+                backgroundColor: content[current].backgroundColor,
+                width: scrn_width,
+                height: scrn_height,
+                justifyContent: 'center',
+              }}>
+              <Text
+                style={{
+                  ...commonStyles.fontBold20,
+                  color: colors.white,
+                  alignSelf: 'center',
+                }}>
+                {content[current].text}
+              </Text>
+            </View>
+          )}
+
+          {content[current].type === 'AUDIOS' && (
+            <AudioStoryPlayer
+              playAnimation={startAnimation}
+              stopAnimation={() => progress.stopAnimation()}
+              audio={content[current].image}
+              setLoad={setLoad}
+              start={start}
+            />
+          )}
+        </View>
+      </SafeAreaView>
+
+      <View style={{flexDirection: 'column', flex: 1, marginTop: 30}}>
+        <View style={styles.animationBarContainer}>
+          {content.map((index, key) => {
+            return (
+              <View key={key} style={styles.animationBackground}>
+                <Animated.View
+                  style={{
+                    flex: current === key ? progress : content[key].finish,
+                    height: 2,
+                    backgroundColor: 'white',
+                  }}
+                />
               </View>
-            )}
-
-            {content[current].type === 'AUDIOS' && (    
-            <AudioStoryPlayer playAnimation={startAnimation} stopAnimation={() => progress.stopAnimation()} audio={content[current].image} setLoad={setLoad} start={start} />
-            )}
-          </View>
-        </SafeAreaView>
-
-        <View style={{flexDirection: 'column', flex: 1, marginTop: 30}}>
-          <View style={styles.animationBarContainer}>
-            {content.map((index, key) => {
-              return (
-                <View key={key} style={styles.animationBackground}>
-                  <Animated.View
-                    style={{
-                      flex: current === key ? progress : content[key].finish,
-                      height: 2,
-                      backgroundColor: 'white',
-                    }}
-                  />
-                </View>
-              );
-            })}
+            );
+          })}
+        </View>
+        <View style={styles.userContainer}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Image
+              style={styles.avatarImage}
+              source={{uri: props.profileImage}}
+            />
+            <Text style={styles.avatarText}>{props.profileName}</Text>
           </View>
           <View style={styles.userContainer}>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Image style={styles.avatarImage} source={{uri: props.profileImage}} />
-              <Text style={styles.avatarText}>{props.profileName}</Text>
-            </View>
-            <View style={styles.userContainer}>
-              <TouchableOpacity
-                onPress={() => {
-                  if (props.onClosePress) {
-                    props.onClosePress();
-                  }
-                }}>
-                <View style={styles.closeIconContainer}>{props.customCloseComponent ? props.customCloseComponent : <Text style={{color: 'white'}}>X</Text>}</View>
-              </TouchableOpacity>
-              <StoryMenu />
-            </View>
-          </View>
-          <View style={styles.pressContainer}>
-            <TouchableWithoutFeedback
-              onPressIn={() => {
-                Keyboard.dismiss();
-                progress.stopAnimation();
-              }}
-              onLongPress={() => setPressed(true)}
-              onPressOut={() => {
-                setPressed(false);
-                startAnimation();
-              }}
+            <TouchableOpacity
               onPress={() => {
-                if (!pressed && !load) {
-                  previous();
+                if (props.onClosePress) {
+                  props.onClosePress();
                 }
               }}>
-              <View style={{flex: 0.5, marginEnd: 30}} />
-            </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback
-              onPressIn={() => {
-                Keyboard.dismiss();
-                progress.stopAnimation();
-              }}
-              onLongPress={() => setPressed(true)}
-              onPressOut={() => {
-                setPressed(false);
-                startAnimation();
-              }}
-              onPress={() => {
-                if (!pressed && !load) {
-                  next();
-                }
-              }}>
-              <View style={{flex: 0.5, marginStart: 30}} />
-            </TouchableWithoutFeedback>
+              <View style={styles.closeIconContainer}>
+                {props.customCloseComponent ? (
+                  props.customCloseComponent
+                ) : (
+                  <Text style={{color: 'white'}}>X</Text>
+                )}
+              </View>
+            </TouchableOpacity>
+            <StoryMenu />
           </View>
         </View>
-
-        <KeyboardAvoidingView behavior="position">
-          <View
-            style={{
-              backgroundColor: colors.white,
-              position: 'absolute',
-              width: '90%',
-              borderRadius: 10,
-              bottom: 40,
-              alignSelf: 'center',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              paddingVertical: Platform.OS === 'ios' ? 10 : 0,
+        <View style={styles.pressContainer}>
+          <TouchableWithoutFeedback
+            onPressIn={() => {
+              Keyboard.dismiss();
+              progress.stopAnimation();
+            }}
+            onLongPress={() => setPressed(true)}
+            onPressOut={() => {
+              setPressed(false);
+              startAnimation();
+            }}
+            onPress={() => {
+              if (!pressed && !load) {
+                previous();
+              }
             }}>
-            <TextInput value={txtMessage} onChangeText={setMessage} style={{...commonStyles.fontSize13, paddingStart: 15, flex: 1}} placeholderTextColor={colors.grey_072} placeholder="Send Message" />
-            <TouchableOpacity style={{justifyContent: 'center'}} onPress={onPressSend}>
-              <Text style={{...commonStyles.fontBold16, textAlignVertical: 'center', marginEnd: 20, color: colors.themeColor}}>{'Send'}</Text>
-            </TouchableOpacity>
-          </View>
-        </KeyboardAvoidingView>
-        {load && content[current].type !== 'TEXT' && (
-          <View style={styles.spinnerContainer}>
-            <ActivityIndicator size="large" color={'white'} />
-          </View>
-        )}
-      </GestureRecognizer>
+            <View style={{flex: 0.5, marginEnd: 30}} />
+          </TouchableWithoutFeedback>
+          <TouchableWithoutFeedback
+            onPressIn={() => {
+              Keyboard.dismiss();
+              progress.stopAnimation();
+            }}
+            onLongPress={() => setPressed(true)}
+            onPressOut={() => {
+              setPressed(false);
+              startAnimation();
+            }}
+            onPress={() => {
+              if (!pressed && !load) {
+                next();
+              }
+            }}>
+            <View style={{flex: 0.5, marginStart: 30}} />
+          </TouchableWithoutFeedback>
+        </View>
+      </View>
+
+      <KeyboardAvoidingView behavior="position">
+        <View
+          style={{
+            backgroundColor: colors.white,
+            position: 'absolute',
+            width: '90%',
+            borderRadius: 10,
+            bottom: 40,
+            alignSelf: 'center',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            paddingVertical: Platform.OS === 'ios' ? 10 : 0,
+          }}>
+          <TextInput
+            value={txtMessage}
+            onChangeText={setMessage}
+            style={{...commonStyles.fontSize13, paddingStart: 15, flex: 1}}
+            placeholderTextColor={colors.grey_072}
+            placeholder="Send Message"
+          />
+          <TouchableOpacity
+            style={{justifyContent: 'center'}}
+            onPress={onPressSend}>
+            <Text
+              style={{
+                ...commonStyles.fontBold16,
+                textAlignVertical: 'center',
+                marginEnd: 20,
+                color: colors.themeColor,
+              }}>
+              {'Send'}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
+      {load && content[current].type !== 'TEXT' && (
+        <View style={styles.spinnerContainer}>
+          <ActivityIndicator size="large" color={'white'} />
+        </View>
+      )}
+    </GestureRecognizer>
     // </MenuProvider>
   );
 };
@@ -406,8 +500,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
   },
   image: {
-    width: width,
-    height: height,
+    width: scrn_width,
+    height: scrn_height,
     resizeMode: 'cover',
   },
   icon: {
@@ -428,7 +522,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'transparent',
     alignSelf: 'center',
-    width: width,
+    width: scrn_width,
     top: 0,
     bottom: 0,
   },

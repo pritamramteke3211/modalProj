@@ -6,18 +6,17 @@ import {createRef} from 'react';
 export const _navigator = createRef();
 export const isReadyRef = createRef();
 
-const setTopLevelNavigator = (navigatorRef) => {
+const setTopLevelNavigator = navigatorRef => {
   _navigator.current = navigatorRef;
-}
+};
 
-const navigate =
-(routeName, params) => {
+const navigate = (routeName, params) => {
   _navigator.current?.navigate(routeName, params);
-}
+};
 
-const goBack= ()=> {
+const goBack = () => {
   _navigator?.current?.dispatch(NavigationActions.back());
-}
+};
 
 const resetNavigation = (routeName = 'loginScreen') => {
   const resetAction = StackActions.reset({
@@ -25,7 +24,7 @@ const resetNavigation = (routeName = 'loginScreen') => {
     actions: [NavigationActions.navigate({routeName})],
   });
   _navigator?.current?.dispatch(resetAction);
-}
+};
 
 export default {
   navigate,

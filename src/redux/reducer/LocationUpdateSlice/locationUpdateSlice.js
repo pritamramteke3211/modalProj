@@ -19,4 +19,5 @@ export const locationUpdateSlice = createSlice({
 export const {updateLocation} = locationUpdateSlice.actions;
 export default locationUpdateSlice.reducer;
 
-export const locationUpdateSliceSelector = (state) => state.locationUpdate.locationUpdate;
+export const locationUpdateSliceSelector = state =>
+  state.locationUpdate.locationUpdate;

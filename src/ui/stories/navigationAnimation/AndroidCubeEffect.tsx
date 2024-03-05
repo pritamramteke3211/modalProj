@@ -1,6 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {PanResponder, Animated, Dimensions, StyleSheet, Platform, LogBox, StatusBar} from 'react-native';
+import {
+  PanResponder,
+  Animated,
+  Dimensions,
+  StyleSheet,
+  Platform,
+  LogBox,
+  StatusBar,
+} from 'react-native';
+import {scrn_height, scrn_width} from '../../../theme/responsiveSize';
 
 const {width, height} = Dimensions.get('window');
 
@@ -14,7 +23,11 @@ export default class AndroidCubeEffect extends React.Component {
   _value: {x: number; y: number};
   _panResponder: any;
   _scrollView: any;
-  static propTypes: {callBackAfterSwipe: PropTypes.Requireable<(...args: any[]) => any>; scrollLockPage: PropTypes.Requireable<number>; expandView: PropTypes.Requireable<boolean>};
+  static propTypes: {
+    callBackAfterSwipe: PropTypes.Requireable<(...args: any[]) => any>;
+    scrollLockPage: PropTypes.Requireable<number>;
+    expandView: PropTypes.Requireable<boolean>;
+  };
   static defaultProps: {expandView: boolean};
   constructor(props) {
     super(props);
@@ -39,7 +52,8 @@ export default class AndroidCubeEffect extends React.Component {
 
     this._panResponder = PanResponder.create({
       onMoveShouldSetResponderCapture: () => Math.abs(gestureState.dx) > 20,
-      onMoveShouldSetPanResponderCapture: (evt, gestureState) => Math.abs(gestureState.dx) > 20,
+      onMoveShouldSetPanResponderCapture: (evt, gestureState) =>
+        Math.abs(gestureState.dx) > 20,
       onPanResponderGrant: (e, gestureState) => {
         if (this.props.callbackOnSwipe) {
           this.props.callbackOnSwipe(true);
@@ -50,12 +64,14 @@ export default class AndroidCubeEffect extends React.Component {
       onPanResponderMove: (e, gestureState) => {
         if (this.props.loop) {
           if (gestureState.dx < 0 && this._value.x < -this.fullWidth) {
-            this._animatedValue.setOffset({x: width});
+            this._animatedValue.setOffset({x: scrn_width});
           } else if (gestureState.dx > 0 && this._value.x > 0) {
             this._animatedValue.setOffset({x: -(this.fullWidth + width)});
           }
         }
-        Animated.event([null, {dx: this._animatedValue.x}], {useNativeDriver: false})(e, gestureState);
+        Animated.event([null, {dx: this._animatedValue.x}], {
+          useNativeDriver: false,
+        })(e, gestureState);
       },
       onPanResponderRelease: (e, gestureState) => {
         onDoneSwiping(gestureState);
@@ -103,7 +119,9 @@ export default class AndroidCubeEffect extends React.Component {
 
   componentWillReceiveProps(props) {
     this.setState({
-      scrollLockPage: props.scrollLockPage ? this.pages[props.scrollLockPage] : undefined,
+      scrollLockPage: props.scrollLockPage
+        ? this.pages[props.scrollLockPage]
+        : undefined,
     });
   }
 
@@ -149,25 +167,50 @@ export default class AndroidCubeEffect extends React.Component {
     });
 
     let translateXAfterRotate = scrollX.interpolate({
-      inputRange: [pageX - width, pageX - width + 0.1, pageX, pageX + width - 0.1, pageX + width],
-      outputRange: [-width - 1, (-width - 1) / PERSPECTIVE, 0, (width + 1) / PERSPECTIVE, +width + 1],
+      inputRange: [
+        pageX - width,
+        pageX - width + 0.1,
+        pageX,
+        pageX + width - 0.1,
+        pageX + width,
+      ],
+      outputRange: [
+        -width - 1,
+        (-width - 1) / PERSPECTIVE,
+        0,
+        (width + 1) / PERSPECTIVE,
+        +width + 1,
+      ],
       extrapolate: 'clamp',
     });
 
     let opacity = scrollX.interpolate({
-      inputRange: [pageX - width, pageX - width + 10, pageX, pageX + width - 250, pageX + width],
+      inputRange: [
+        pageX - width,
+        pageX - width + 10,
+        pageX,
+        pageX + width - 250,
+        pageX + width,
+      ],
       outputRange: [0, 0.6, 1, 0.6, 0],
       extrapolate: 'clamp',
     });
 
     return {
-      transform: [{perspective: width}, {translateX}, {rotateY: rotateY}, {translateX: translateXAfterRotate}],
+      transform: [
+        {perspective: scrn_width},
+        {translateX},
+        {rotateY: rotateY},
+        {translateX: translateXAfterRotate},
+      ],
       opacity: opacity,
     };
   };
 
   _renderChild = (child, i) => {
-    let expandStyle = this.props.expandView ? {paddingTop: 100, paddingBottom: 100, height: height + 200} : {width, height};
+    let expandStyle = this.props.expandView
+      ? {paddingTop: 100, paddingBottom: 100, height: scrn_height + 200}
+      : {width, height};
     let style = [child.props.style, expandStyle];
     let props = {
       i,
@@ -176,7 +219,13 @@ export default class AndroidCubeEffect extends React.Component {
     let element = React.cloneElement(child, props);
 
     return (
-      <Animated.View style={[StyleSheet.absoluteFill, {backgroundColor: 'transparent'}, this._getTransformsFor(i, false)]} key={`child- ${i}`}>
+      <Animated.View
+        style={[
+          StyleSheet.absoluteFill,
+          {backgroundColor: 'transparent'},
+          this._getTransformsFor(i, false),
+        ]}
+        key={`child- ${i}`}>
         {element}
       </Animated.View>
     );
@@ -215,7 +264,9 @@ export default class AndroidCubeEffect extends React.Component {
   };
 
   render() {
-    let expandStyle = this.props.expandView ? {top: -100, left: 0, width, height: height + 200} : {width, height};
+    let expandStyle = this.props.expandView
+      ? {top: -100, left: 0, width, height: scrn_height + 200}
+      : {width, height};
 
     return (
       <>
@@ -225,7 +276,13 @@ export default class AndroidCubeEffect extends React.Component {
             this._scrollView = view;
           }}
           {...this._panResponder.panHandlers}>
-          <Animated.View style={[{backgroundColor: '#000', position: 'absolute', width, height}, expandStyle]}>{this.props.children.map(this._renderChild)}</Animated.View>
+          <Animated.View
+            style={[
+              {backgroundColor: '#000', position: 'absolute', width, height},
+              expandStyle,
+            ]}>
+            {this.props.children.map(this._renderChild)}
+          </Animated.View>
         </Animated.View>
       </>
     );

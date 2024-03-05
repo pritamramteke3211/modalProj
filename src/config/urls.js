@@ -9,9 +9,9 @@ export const API_BASE_URL = `${IS_DEVELPOMENT_URL ? DEV : LIVE_URL}api/v1/`;
 
 export const BASE_UPLOAD_FILE = `${IS_DEVELPOMENT_URL ? DEV : LIVE_URL}`;
 
-export const getUploadApiUrl = (endpoint) => BASE_UPLOAD_FILE + endpoint;
+export const getUploadApiUrl = endpoint => BASE_UPLOAD_FILE + endpoint;
 
-export const getApiUrl = (endpoint) => API_BASE_URL + endpoint;
+export const getApiUrl = endpoint => API_BASE_URL + endpoint;
 
 export const LOGIN = getApiUrl('user');
 
@@ -41,7 +41,9 @@ export const FEED_DISLIKE = getApiUrl('feeds/dislike');
 
 export const CHAT_REQUEST = getApiUrl('chat/request');
 
-export const CHAT_RECEIVER_POST_NOT_CREATED = getApiUrl('chat/receiverChatPostNotCreated');
+export const CHAT_RECEIVER_POST_NOT_CREATED = getApiUrl(
+  'chat/receiverChatPostNotCreated',
+);
 
 export const CHAT_WITH_ROOM_ID = getApiUrl('chat');
 

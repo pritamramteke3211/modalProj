@@ -1,5 +1,12 @@
 import * as React from 'react';
-import {Text, View, StyleSheet, TextInput, DeviceEventEmitter, ScrollView} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  TextInput,
+  DeviceEventEmitter,
+  ScrollView,
+} from 'react-native';
 import MapView, {Circle} from 'react-native-maps';
 import {useDispatch} from 'react-redux';
 import BackButton from '../../components/BackButton';
@@ -7,16 +14,18 @@ import Loader from '../../components/Loader';
 import MainButton from '../../components/MainButton';
 // import imagePath from '../../config/imagePath';
 import {updateProfile} from '../../redux/actions/auth';
-import {authSliceSelector, updateAuthUserData} from '../../redux/reducer/AuthSlice/authSlice';
+import {
+  authSliceSelector,
+  updateAuthUserData,
+} from '../../redux/reducer/AuthSlice/authSlice';
 import colors from '../../theme/colors';
 import commonStyles from '../../utils/commonStyles';
 import {getCurrentLocation} from '../../utils/helper';
 import WrapperContainer from '../../components/WrapperContainer';
-import { setUserData } from '../../utils/dataHandler';
-import { showError, showSuccess } from '../../utils/showMsg';
+import {setUserData} from '../../utils/dataHandler';
+import {showError, showSuccess} from '../../utils/showMsg';
 
-
-const RoundRadius = (props) => {
+const RoundRadius = props => {
   const userData = useDispatch(authSliceSelector);
   const dispatch = useDispatch();
   const [region, setRegion] = React.useState({
@@ -70,7 +79,7 @@ const RoundRadius = (props) => {
       props?.exit();
     } catch (error) {
       setLoading(false);
-      showError((error).message);
+      showError(error.message);
     }
   };
 
@@ -92,7 +101,12 @@ const RoundRadius = (props) => {
               value={radius.toString()}
               onChangeText={x => setRadius(x)}
               keyboardType="number-pad"
-              style={{...commonStyles.fontBold16, padding: 10, flex: 0.4, textAlign: 'center'}}
+              style={{
+                ...commonStyles.fontBold16,
+                padding: 10,
+                flex: 0.4,
+                textAlign: 'center',
+              }}
               placeholderTextColor={'grey'}
               placeholder={'Enter km'}
               maxLength={10}
@@ -103,8 +117,20 @@ const RoundRadius = (props) => {
             </Text>
           </View>
         </View>
-        <MapView zoomEnabled={true} scrollEnabled={true} showsScale={true} provider={'google'} region={region} style={{flex: 1}}>
-          <Circle center={region} radius={isNumber(radius) ? parseInt(radius, 10) * 1000 : 1 * 1000} strokeWidth={1} strokeColor={colors.blue_light} fillColor={'rgba(230,238,255,0.5)'} />
+        <MapView
+          zoomEnabled={true}
+          scrollEnabled={true}
+          showsScale={true}
+          provider={'google'}
+          region={region}
+          style={{flex: 1}}>
+          <Circle
+            center={region}
+            radius={isNumber(radius) ? parseInt(radius, 10) * 1000 : 1 * 1000}
+            strokeWidth={1}
+            strokeColor={colors.blue_light}
+            fillColor={'rgba(230,238,255,0.5)'}
+          />
         </MapView>
         <MainButton btnText="Save" onPress={save} />
       </View>
@@ -120,6 +146,15 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-  rowContainer: {backgroundColor: 'white', flexDirection: 'row', justifyContent: 'space-between'},
-  _container: {backgroundColor: 'white', flexDirection: 'row', justifyContent: 'center', flex: 1},
+  rowContainer: {
+    backgroundColor: 'white',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  _container: {
+    backgroundColor: 'white',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    flex: 1,
+  },
 });

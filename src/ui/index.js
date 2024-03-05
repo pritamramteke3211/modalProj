@@ -7,26 +7,23 @@ export {default as CreateProfile} from './createProfile/CreateProfile';
 export {default as Setting} from './setting/Settings';
 // export {default as StoriesSlide} from './stories/StoriesSlide';
 // export {default as EditProfile} from './editProfile/EditProfile';
-// export {default as Chat} from './chat/Chat';
-// export {default as VisionCamera} from './camera/VisionCamera';
-// export {default as OtherUserDetail} from './otherUserDetail/OtherUserDetail';
-// export {default as PostType} from './postFeed/PostType';
+export {default as Chat} from './chat/Chat';
+export {default as VisionCamera} from './camera/VisionCamera';
+export {default as OtherUserDetail} from './otherUserDetail/OtherUserDetail';
+export {default as PostType} from './postFeed/PostTypes';
 // export {default as HelperOrDonarUserList} from './helperOrDonar/HelperOrDonarUserList';
-// export {default as PostEmergencyPost} from './postEmergencyPost/PostEmergencyPost';
-// export {default as SinglePost} from './singlePost/SinglePost';
+export {default as PostEmergencyPost} from './postEmergencyPost/PostEmergencyPost';
+export {default as SinglePost} from './singlePost/SinglePost';
 // export {default as TagsFeed} from './tagFeeds/TagsFeed';
 // export {default as Radius} from './radius/Radius';
 export {default as GlobalSearch} from './globalSearch/GlobalSearch';
-// export {default as PushSetting} from './pushSetting/PushSetting';
+export {default as PushSetting} from './pushSetting/PushSetting';
 export {default as WebViewScreen} from './webviewScreen/WebViewScreen';
-// export {default as PostFeed} from './postFeed/PostFeed';
+export {default as PostFeed} from './postFeed/PostFeed';
 
 // export {default as WebViewPermotion} from './webPermotion/WebPermotion';
 
-// export {default as VidepPlayerScreen} from './videoPlayer/VidepPlayerScreen';
-
-
-
+export {default as VidepPlayerScreen} from './videoPlayer/VidepPlayerScreen';
 
 /**
  * Guest

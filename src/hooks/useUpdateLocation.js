@@ -1,17 +1,14 @@
-
 import {useEffect} from 'react';
 import {getCurrentLocation, locationPermission} from '../utils/location';
 import {updateProfile} from '../redux/actions/auth';
 import {updateLocation} from '../redux/reducer/LocationUpdateSlice/locationUpdateSlice';
-import { setItem } from '../utils/dataHandler';
-import { useDispatch } from 'react-redux';
+import {useDispatch} from 'react-redux';
+import {setItemF} from '../utils/dataHandler';
 
 export const useUpdateLocation = () => {
+  const dispatch = useDispatch();
 
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-    
+  useEffect(() => {
     locationPermission()
       .then(async status => {
         if (status === 'granted') {
@@ -20,13 +17,12 @@ export const useUpdateLocation = () => {
             latitude: getLocation?.coords.latitude,
             longitude: getLocation?.coords.longitude,
           });
-          await setItem('LocationUpdated', true);
+          await setItemF('LocationUpdated', true);
           dispatch(updateLocation(true));
         }
       })
       .catch(error => {
         console.log('error', error);
       });
-
   }, [dispatch]);
 };

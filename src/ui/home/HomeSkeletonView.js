@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import colors from '../../theme/colors';
-import {moderateScale, width} from '../../theme/responsiveSize';
+import {rspW, width} from '../../theme/responsiveSize';
 
 const HomeSkeltonView = () => {
   return (
@@ -27,11 +27,11 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: moderateScale(24),
+    paddingHorizontal: rspW(24),
     justifyContent: 'space-between',
     borderBottomColor: colors.e9,
   },
-  margin: {marginHorizontal: moderateScale(20)},
+  margin: {marginHorizontal: rspW(2)},
   viewContainer: {marginTop: 16, width: 312, height: 204, borderRadius: 10},
 });
 

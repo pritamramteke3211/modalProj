@@ -3,11 +3,9 @@ import ImagePicker from 'react-native-image-crop-picker';
 import {Alert} from 'react-native';
 import rnfs from 'react-native-fs';
 import DocumentPicker from 'react-native-document-picker';
-import { showError } from '../utils/showMsg';
-
+import {showError} from '../utils/showMsg';
 
 export default function useUploadImage(outerImage) {
-  
   const [image, setImage] = useState(outerImage);
   const [baseImage, setBaseImage] = useState(outerImage);
 
@@ -37,7 +35,7 @@ export default function useUploadImage(outerImage) {
       mediaType: 'photo',
       compressImageQuality: 0.5,
     })
-      .then((image) => {
+      .then(image => {
         pathToImageFile(image);
       })
       .catch(error => {
@@ -49,7 +47,7 @@ export default function useUploadImage(outerImage) {
     ImagePicker.openCamera({
       cropping: true,
     })
-      .then((image) => {
+      .then(image => {
         pathToImageFile(image);
       })
       .catch(() => {});

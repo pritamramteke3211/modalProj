@@ -1,6 +1,5 @@
-
-import { Dimensions, Platform } from "react-native";
-import insets from './insets'
+import {Dimensions, Platform} from 'react-native';
+import insets from './insets';
 
 export const HOME_HEADER = 58 * 2.4;
 export const DURATIONS = [2, 4, 6, 8, 16, 24];
@@ -26,7 +25,8 @@ export const ABOUT = 'https://helpersfamily.com/about';
 export const PRIVACY_POLICY = 'https://helpersfamily.com/privacypolicy';
 export const HELP = 'https://helpersfamily.com/contact';
 
-export const FILE_BASE_URL = 'https://helpersfamily.s3.ap-south-1.amazonaws.com/';
+export const FILE_BASE_URL =
+  'https://helpersfamily.s3.ap-south-1.amazonaws.com/';
 
 export const CONTENT_SPACING = 15;
 

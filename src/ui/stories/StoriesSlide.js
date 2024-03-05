@@ -1,7 +1,6 @@
-
 import * as React from 'react';
 import {Platform, View} from 'react-native';
-import {width} from '../../theme/responsiveSize';
+import {scrn_width, width} from '../../theme/responsiveSize';
 // import CubeNavigationHorizontal from './navigationAnimation/CubicNavigationHorizontal';
 // import AndroidCubeEffect from './navigationAnimation/AndroidCubeEffect';
 // import StoryListItem from './StoryListItem';
@@ -15,9 +14,7 @@ import CubeNavigationHorizontal from './navigationAnimation/CubicNavigationHoriz
 // import colors from '../../theme/colors';
 // import ModalBox from './ModalBox';
 
-
 const StoriesSlide = React.forwardRef((props, ref) => {
-    
   const {data, refreshList} = props;
   const [dataState, setDataState] = React.useState(data);
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -39,7 +36,6 @@ const StoriesSlide = React.forwardRef((props, ref) => {
         } else {
           setIsModalOpen(false);
           setCurrentPage(0);
-          
         }
       } else if (state == 'previous') {
         const newPage = currentPage - 1;
@@ -60,7 +56,8 @@ const StoriesSlide = React.forwardRef((props, ref) => {
     };
   });
 
-  const _handleStoryItemPress = (index) => {
+  const _handleStoryItemPress = index => {
+    console.log('_handleStoryItemPress');
     const newData = dataState?.slice(index);
     setCurrentPage(0);
     setSelectedData(newData);
@@ -94,7 +91,7 @@ const StoriesSlide = React.forwardRef((props, ref) => {
       return (
         <CubeNavigationHorizontal
           ref={cube}
-          callBackAfterSwipe={(x) => {
+          callBackAfterSwipe={x => {
             if (x !== currentPage) {
               setCurrentPage(parseInt(x, 10));
             }
@@ -106,7 +103,7 @@ const StoriesSlide = React.forwardRef((props, ref) => {
       return (
         <AndroidCubeEffect
           ref={cube}
-          callBackAfterSwipe={(x) => {
+          callBackAfterSwipe={x => {
             if (x !== currentPage) {
               setCurrentPage(parseInt(x, 10));
             }
@@ -123,7 +120,7 @@ const StoriesSlide = React.forwardRef((props, ref) => {
         style={{
           flex: 1,
           height: 100,
-          width: width,
+          width: scrn_width,
           backgroundColor: colors.black,
         }}
         isOpen={isModalOpen}

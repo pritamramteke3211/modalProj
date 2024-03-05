@@ -1,19 +1,20 @@
 import React from 'react';
-import {createBottomTabNavigator, BottomTabBar} from '@react-navigation/bottom-tabs';
+import {
+  createBottomTabNavigator,
+  BottomTabBar,
+} from '@react-navigation/bottom-tabs';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import Home from '../ui/home/Home';
 import navigationString from '../config/navigationString';
 import imagePath from '../config/imagePath';
 import colors from '../theme/colors';
-import {moderateScaleVertical} from '../theme/responsiveSize';
+import {rspH} from '../theme/responsiveSize';
 import Login from '../ui/login/Login';
 
 const BottomTab = createBottomTabNavigator();
 
-
 const GuestTabRoutes = _ => {
   return (
-    
     <BottomTab.Navigator
       tabBar={tabsProps => (
         <>
@@ -36,7 +37,12 @@ const GuestTabRoutes = _ => {
         component={Home}
         options={{
           tabBarIcon: ({focused}) => {
-            return <Image source={focused ? imagePath.tab1_s : imagePath.tab1_u} style={styles.homeImg} />;
+            return (
+              <Image
+                source={focused ? imagePath.tab1_s : imagePath.tab1_u}
+                style={styles.homeImg}
+              />
+            );
           },
         }}
       />
@@ -51,7 +57,10 @@ const GuestTabRoutes = _ => {
           tabBarIcon: ({focused}) => {
             return (
               <View style={{paddingHorizontal: 0 ? 5 : 0}}>
-                <Image source={focused ? imagePath.tab2_s : imagePath.tab2_u} style={styles.homeImg} />
+                <Image
+                  source={focused ? imagePath.tab2_s : imagePath.tab2_u}
+                  style={styles.homeImg}
+                />
               </View>
             );
           },
@@ -85,8 +94,10 @@ const GuestTabRoutes = _ => {
           tabBarIcon: ({focused}) => {
             return (
               <View style={{padding: 0 ? 3 : 0}}>
-                <Image source={focused ? imagePath.tab4_s : imagePath.tab4_u} style={styles.homeImg} />
-                
+                <Image
+                  source={focused ? imagePath.tab4_s : imagePath.tab4_u}
+                  style={styles.homeImg}
+                />
               </View>
             );
           },
@@ -103,7 +114,15 @@ const GuestTabRoutes = _ => {
           tabBarIcon: () => {
             return (
               <>
-                <Image source={imagePath.placeholder} style={{...styles.homeImg, borderWidth: 1, borderColor: colors.black, borderRadius: 5}} />
+                <Image
+                  source={imagePath.placeholder}
+                  style={{
+                    ...styles.homeImg,
+                    borderWidth: 1,
+                    borderColor: colors.black,
+                    borderRadius: 5,
+                  }}
+                />
               </>
             );
           },
@@ -118,7 +137,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   addImage: {
-    marginBottom: moderateScaleVertical(30),
+    marginBottom: rspH(30),
   },
   bottomStyle: {
     elevation: 30,

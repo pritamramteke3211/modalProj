@@ -9,15 +9,12 @@ import {setModalVisibility} from '../../redux/reducer/MarkAsSold/markAsSoldSlice
 import {openMobileAlert} from '../../redux/reducer/MobileNumberSlice/mobileNumberSlice';
 import colors from '../../theme/colors';
 import fontFamily from '../../theme/fontFamily';
-import {moderateScale, moderateScaleVertical} from '../../theme/responsiveSize';
+import {rspW, rspH} from '../../theme/responsiveSize';
 import commonStyles from '../../utils/commonStyles';
-// import {showError} from '../../utils/utils';
 import NavigationService from '../../service/NavigationService';
 import {authSliceSelector} from '../../redux/reducer/AuthSlice/authSlice';
-import { showError } from '../../utils/showMsg';
-import { useDispatch, useSelector } from 'react-redux';
-
-
+import {showError} from '../../utils/showMsg';
+import {useDispatch, useSelector} from 'react-redux';
 
 const buttonText = {
   1: 'Help',
@@ -25,7 +22,7 @@ const buttonText = {
   3: 'Completed',
 };
 
-const ButtonAndLikeContainer = (props) => {
+const ButtonAndLikeContainer = props => {
   const {item} = props;
 
   // const navigation = useNavigation();
@@ -35,7 +32,7 @@ const ButtonAndLikeContainer = (props) => {
   });
   const [isLikedPost, setIsLikedPost] = React.useState(item?.likestatus);
   const [isDisLikePost, setDisLikePost] = React.useState(item?.dislikestatus);
-  const userData = useSelector(authSliceSelector);
+  const userData = useSelector(state => state.audio.authUser);
   const myId = item?.user?.id === userData?.id;
   const isCompleted = item?.status ? 'Completed' : 'Mark as complete';
   const dispatch = useDispatch();
@@ -51,7 +48,8 @@ const ButtonAndLikeContainer = (props) => {
   }, [item]);
 
   const openMarkAsComplete = () => {
-    !item?.default && dispatch(setModalVisibility({postId: item?.id, isModalVisible: true}));
+    !item?.default &&
+      dispatch(setModalVisibility({postId: item?.id, isModalVisible: true}));
   };
 
   const onPressHelp = () => {
@@ -60,7 +58,10 @@ const ButtonAndLikeContainer = (props) => {
     }
 
     if (item?.isAdmin === 1) {
-      NavigationService.navigate(navigationString.WEBVIEW_PERMOTION, {url: item?.url, id: userData?.id});
+      NavigationService.navigate(navigationString.WEBVIEW_PERMOTION, {
+        url: item?.url,
+        id: userData?.id,
+      });
       return;
     }
 
@@ -81,10 +82,13 @@ const ButtonAndLikeContainer = (props) => {
       dispatch(openMobileAlert({isOpen: true}));
       return;
     }
-    NavigationService.navigate(navigationString.CHAT, {item: {...item, postId: item?.id}});
+    NavigationService.navigate(navigationString.CHAT, {
+      item: {...item, postId: item?.id},
+    });
   };
 
-  const updateState = (data) => setLikeDislikeCount({...likeDislikeCount, ...data});
+  const updateState = data =>
+    setLikeDislikeCount({...likeDislikeCount, ...data});
 
   const likePost = async () => {
     if (userData?.guest) {
@@ -100,7 +104,10 @@ const ButtonAndLikeContainer = (props) => {
         setIsLikedPost(false);
       } else {
         if (isDisLikePost) {
-          updateState({likeCount: likeDislikeCount.likeCount + 1, dislikeCount: likeDislikeCount.dislikeCount - 1});
+          updateState({
+            likeCount: likeDislikeCount.likeCount + 1,
+            dislikeCount: likeDislikeCount.dislikeCount - 1,
+          });
         } else {
           updateState({likeCount: likeDislikeCount.likeCount + 1});
         }
@@ -109,7 +116,7 @@ const ButtonAndLikeContainer = (props) => {
       setDisLikePost(false);
       await feedLike({id: item?.id?.toString()});
     } catch (error) {
-      showError((error).message);
+      showError(error.message);
     }
   };
 
@@ -123,7 +130,10 @@ const ButtonAndLikeContainer = (props) => {
         setDisLikePost(false);
       } else {
         if (isLikedPost) {
-          updateState({dislikeCount: likeDislikeCount.dislikeCount + 1, likeCount: likeDislikeCount.likeCount - 1});
+          updateState({
+            dislikeCount: likeDislikeCount.dislikeCount + 1,
+            likeCount: likeDislikeCount.likeCount - 1,
+          });
         } else {
           updateState({dislikeCount: likeDislikeCount.dislikeCount + 1});
         }
@@ -132,11 +142,11 @@ const ButtonAndLikeContainer = (props) => {
       setIsLikedPost(false);
       await feedDislike({id: item?.id?.toString()});
     } catch (error) {
-      showError((error).message);
+      showError(error.message);
     }
   };
 
-  item?.isAdmin === 1 && console.log('item?.isAdmin', item?.isAdmin, item?.isJoin, item?.url);
+  // item?.isAdmin === 1 && console.log('item?.isAdmin', item?.isAdmin, item?.isJoin, item?.url);
 
   if (item?.isAdmin === 1 && !item?.url) {
     return;
@@ -144,22 +154,50 @@ const ButtonAndLikeContainer = (props) => {
 
   return (
     <View style={styles.container}>
-      <FlexSBContainer containerStyle={{marginTop: moderateScaleVertical(16)}}>
+      <FlexSBContainer containerStyle={{marginTop: rspH(2)}}>
         <TouchableOpacity onPress={onPressHelp} style={[styles.button]}>
-          <Text onPress={onPressHelp} style={{...commonStyles.fontSize12, fontFamily: fontFamily.bold, color: colors.white}}>
-            {myId ? isCompleted : item?.status === 1 ? 'Completed' : buttonText[item?.type] ? buttonText[item?.type] : Join ? 'Join' : 'Joined'}
+          <Text
+            onPress={onPressHelp}
+            style={{
+              ...commonStyles.fontSize12,
+              fontFamily: fontFamily.bold,
+              color: colors.white,
+            }}>
+            {myId
+              ? isCompleted
+              : item?.status === 1
+              ? 'Completed'
+              : buttonText[item?.type]
+              ? buttonText[item?.type]
+              : Join
+              ? 'Join'
+              : 'Joined'}
           </Text>
         </TouchableOpacity>
         {item?.isAdmin !== 1 && (
           <FlexSBContainer>
             <Pressable onPress={likePost}>
-              <Image style={{tintColor: isLikedPost ? colors.themeColor : colors.grey}} source={imagePath.ic_like} />
+              <Image
+                style={{
+                  tintColor: isLikedPost ? colors.themeColor : colors.grey,
+                }}
+                source={imagePath.ic_like}
+              />
             </Pressable>
-            <Text style={{...commonStyles.fontSize14, marginHorizontal: moderateScale(10)}}>{likeDislikeCount?.likeCount}</Text>
+            <Text
+              style={{...commonStyles.fontSize14, marginHorizontal: rspW(2.6)}}>
+              {likeDislikeCount?.likeCount}
+            </Text>
             <Pressable onPress={dislikePost}>
-              <Image style={{tintColor: isDisLikePost ? colors.error : colors.grey}} source={imagePath.Union} />
+              <Image
+                style={{tintColor: isDisLikePost ? colors.error : colors.grey}}
+                source={imagePath.Union}
+              />
             </Pressable>
-            <Text style={{...commonStyles.fontSize14, marginHorizontal: moderateScale(10)}}>{likeDislikeCount?.dislikeCount}</Text>
+            <Text
+              style={{...commonStyles.fontSize14, marginHorizontal: rspW(2.6)}}>
+              {likeDislikeCount?.dislikeCount}
+            </Text>
           </FlexSBContainer>
         )}
       </FlexSBContainer>
@@ -174,5 +212,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 5,
   },
-  button: {backgroundColor: colors.themeColor, paddingHorizontal: 20, paddingVertical: 10, borderRadius: 5},
+  button: {
+    backgroundColor: colors.themeColor,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 5,
+  },
 });

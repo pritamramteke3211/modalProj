@@ -1,15 +1,18 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import * as React from 'react';
 import {Text, StyleSheet, Platform, ViewStyle, ViewProps} from 'react-native';
-import {CodeField, Cursor, useBlurOnFulfill, useClearByFocusCell} from 'react-native-confirmation-code-field';
+import {
+  CodeField,
+  Cursor,
+  useBlurOnFulfill,
+  useClearByFocusCell,
+} from 'react-native-confirmation-code-field';
 import {useState} from 'react';
 import commonStyles from '../../utils/commonStyles';
-import {moderateScale, moderateScaleVertical} from '../../theme/responsiveSize';
+import {rspW, rspH} from '../../theme/responsiveSize';
 import colors from '../../theme/colors';
 import fontFamily from '../../theme/fontFamily';
 import {DataHandler} from './OtpVerification';
-
-
 
 const CodeFiledInput = React.forwardRef((props, handelRef) => {
   const {containerStyle} = props;
@@ -35,7 +38,14 @@ const CodeFiledInput = React.forwardRef((props, handelRef) => {
         keyboardType="number-pad"
         textContentType="oneTimeCode"
         renderCell={({index, symbol, isFocused}) => (
-          <Text style={[styles.inputContainer, isFocused && styles.focused, {height: 56}]} onLayout={getCellOnLayoutHandler(index)} key={index}>
+          <Text
+            style={[
+              styles.inputContainer,
+              isFocused && styles.focused,
+              {height: 56},
+            ]}
+            onLayout={getCellOnLayoutHandler(index)}
+            key={index}>
             {symbol || (isFocused ? <Cursor /> : null)}
           </Text>
         )}
@@ -66,5 +76,8 @@ const styles = StyleSheet.create({
     borderColor: colors.themeColor,
     borderBottomWidth: 2,
   },
-  rootContainer: {marginTop: moderateScaleVertical(35), marginEnd: moderateScale(60)},
+  rootContainer: {
+    marginTop: rspH(14),
+    marginEnd: rspW(20),
+  },
 });

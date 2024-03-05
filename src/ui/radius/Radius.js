@@ -1,6 +1,13 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {View, Text, Alert, Platform, BackHandler, Dimensions} from 'react-native';
+import {
+  View,
+  Text,
+  Alert,
+  Platform,
+  BackHandler,
+  Dimensions,
+} from 'react-native';
 import MapView from 'react-native-maps';
 import {TextInput} from 'react-native-gesture-handler';
 // import colors from '../../theme/colors';
@@ -33,13 +40,19 @@ export default class Radius extends React.Component {
 
   componentWillUnmount() {
     if (Platform.OS === 'android') {
-      BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        this.handleBackButtonClick,
+      );
     }
   }
 
   async componentDidMount() {
     if (Platform.OS === 'android') {
-      BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
+      BackHandler.addEventListener(
+        'hardwareBackPress',
+        this.handleBackButtonClick,
+      );
     }
     UserData.accessToken = this.props.userData.data.accessToken;
     try {
@@ -175,7 +188,10 @@ export default class Radius extends React.Component {
                   textAlignVertical: 'center',
                   fontSize: 24,
                   color: '#474B4E',
-                  fontFamily: Platform.OS === 'ios' ? fontFamily.regular : fontFamily.bold,
+                  fontFamily:
+                    Platform.OS === 'ios'
+                      ? fontFamily.regular
+                      : fontFamily.bold,
                   fontWeight: Platform.OS === 'ios' ? '700' : 'normal',
                   lineHeight: 32,
                   letterSpacing: 0.5,
@@ -231,7 +247,12 @@ export default class Radius extends React.Component {
             height: '100%',
             position: 'absolute',
           }}>
-          <MapView liteMode provider={'google'} region={this.state.region} style={{flex: 1}} />
+          <MapView
+            liteMode
+            provider={'google'}
+            region={this.state.region}
+            style={{flex: 1}}
+          />
         </View>
       </View>
     );

@@ -9,11 +9,33 @@ export default function (Stack, splashAndBoarding) {
   const showHeader = {headerShown: false};
   return (
     <>
-      {splashAndBoarding && <Stack.Screen name={navigationString.ON_BOARDING} component={screens.OnBoarding} options={showHeader} />}
-       <Stack.Screen name={navigationString.LOGIN} component={screens.Login} options={showHeader} />
-      <Stack.Screen name={navigationString.VERIFY_OTP} component={screens.OtpVerification} options={showHeader} />
-        <Stack.Screen name={navigationString.REGISTER} component={screens.CreateProfile} options={showHeader} />
-      <Stack.Screen name={navigationString.WEBVIEW_SCREEN} component={screens.WebViewScreen} options={showHeader} /> 
+      {splashAndBoarding && (
+        <Stack.Screen
+          name={navigationString.ON_BOARDING}
+          component={screens.OnBoarding}
+          options={showHeader}
+        />
+      )}
+      <Stack.Screen
+        name={navigationString.LOGIN}
+        component={screens.Login}
+        options={showHeader}
+      />
+      <Stack.Screen
+        name={navigationString.VERIFY_OTP}
+        component={screens.OtpVerification}
+        options={showHeader}
+      />
+      <Stack.Screen
+        name={navigationString.REGISTER}
+        component={screens.CreateProfile}
+        options={showHeader}
+      />
+      <Stack.Screen
+        name={navigationString.WEBVIEW_SCREEN}
+        component={screens.WebViewScreen}
+        options={showHeader}
+      />
     </>
   );
 }

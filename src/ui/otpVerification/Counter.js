@@ -1,9 +1,8 @@
-
 import * as React from 'react';
 import {Text} from 'react-native';
 import {useState} from 'react';
 import commonStyles from '../../utils/commonStyles';
-import {moderateScaleVertical} from '../../theme/responsiveSize';
+import {rspH} from '../../theme/responsiveSize';
 import BackgroundTimer from 'react-native-background-timer';
 
 const Counter = React.forwardRef((props, ref) => {
@@ -32,7 +31,11 @@ const Counter = React.forwardRef((props, ref) => {
 
   return (
     <>
-      <Text style={{...commonStyles.fontSize15, marginTop: moderateScaleVertical(20)}}>{`00:${timer < 10 ? '0' : ''}${timer.toString()}`}</Text>
+      <Text
+        style={{
+          ...commonStyles.fontSize15,
+          marginTop: rspH(2.5),
+        }}>{`00:${timer < 10 ? '0' : ''}${timer.toString()}`}</Text>
     </>
   );
 });

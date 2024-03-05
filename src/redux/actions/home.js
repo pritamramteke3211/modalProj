@@ -1,7 +1,13 @@
-import {apiPost, apiGet, setUserData, apiPut, apiDelete} from '../../utils/apiReq';
+import {
+  apiPost,
+  apiGet,
+  setUserData,
+  apiPut,
+  apiDelete,
+} from '../../utils/apiReq';
 import * as urls from '../../config/urls';
 
-export function homeApi(skip, limit = 50) {
+export async function homeApi(skip, limit = 50) {
   console.log('SKIPPING', skip);
 
   return apiGet(urls.HOME_FEED + `?limit=${limit}&skip=${skip}`);
@@ -10,7 +16,7 @@ export function homeApiWithTag(skip, tag) {
   return apiGet(urls.HOME_FEED + `?tags=${tag}`);
 }
 
-export function getCausesList() {
+export async function getCausesList() {
   return apiGet(urls.CAUSES);
 }
 
@@ -38,7 +44,9 @@ export function chatReceiverPostNotCreatedApi() {
 }
 
 export function chatWithRoomId(postId, roomId) {
-  return apiGet(urls.CHAT_WITH_ROOM_ID + '?postId=' + postId + '&room=' + roomId);
+  return apiGet(
+    urls.CHAT_WITH_ROOM_ID + '?postId=' + postId + '&room=' + roomId,
+  );
 }
 
 export function chatWithWithoutRoomId(postId) {
@@ -81,7 +89,7 @@ export function reportFeed(data) {
   return apiPost(urls.REPORT_FEED, data);
 }
 
-export async function  sendMessage(data) {
+export async function sendMessage(data) {
   return apiPost(urls.SEND_MESSAGE, data, {
     'Content-Type': 'multipart/form-data',
   });
@@ -98,7 +106,10 @@ export function getUserStories(userId) {
 }
 
 export function isUserExist(socialMediaId, loginType) {
-  return apiGet(urls.IS_USER_EXIST + `?socialMediaId=${socialMediaId}&loginType=${loginType}`);
+  return apiGet(
+    urls.IS_USER_EXIST +
+      `?socialMediaId=${socialMediaId}&loginType=${loginType}`,
+  );
 }
 
 export function deleteEmergencyPost(data) {

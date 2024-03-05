@@ -1,20 +1,31 @@
-
 import React, {useState, useRef} from 'react';
-import {View, ActivityIndicator, LayoutAnimation, UIManager, Image, TouchableNativeFeedback} from 'react-native';
+import {
+  View,
+  ActivityIndicator,
+  LayoutAnimation,
+  UIManager,
+  Image,
+  TouchableNativeFeedback,
+} from 'react-native';
 import Video from 'react-native-video';
 import {StyleSheet} from 'react-native';
 import imagePath from '../../config/imagePath';
 import {FILE_BASE_URL} from '../../config/constant';
-import {height, width} from '../../theme/responsiveSize';
+import {
+  height,
+  scrn_height,
+  scrn_width,
+  width,
+} from '../../theme/responsiveSize';
 import colors from '../../theme/colors';
 
-UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
+UIManager.setLayoutAnimationEnabledExperimental &&
+  UIManager.setLayoutAnimationEnabledExperimental(true);
 
 const volumeControlTime = 3000;
 
 const AudioStoryPlayer = props => {
-  
- const {audio, stopAnimation, start, playAnimation} = props;
+  const {audio, stopAnimation, start, playAnimation} = props;
 
   const [paused, setPaused] = useState(false);
 
@@ -118,21 +129,29 @@ const AudioStoryPlayer = props => {
 
       <View style={{flex: 1, backgroundColor: 'red'}}>
         <View style={styles.rowContainer}>
-         
           {loading && (
-            <View style={{marginTop: height / 2, width: width, alignSelf: 'center'}}>
+            <View
+              style={{
+                marginTop: scrn_height / 2,
+                width: scrn_width,
+                alignSelf: 'center',
+              }}>
               <ActivityIndicator size="large" color="#FFF" />
             </View>
           )}
 
           {!loading && (
             <View style={styles.container}>
-              <TouchableNativeFeedback onPress={togglePlay} style={styles.playPauseContainer}>
-                <Image style={{width: 70, height: 70, tintColor: colors.white}} source={paused ? imagePath.play : imagePath.fi_pause_circle} />
+              <TouchableNativeFeedback
+                onPress={togglePlay}
+                style={styles.playPauseContainer}>
+                <Image
+                  style={{width: 70, height: 70, tintColor: colors.white}}
+                  source={paused ? imagePath.play : imagePath.fi_pause_circle}
+                />
               </TouchableNativeFeedback>
             </View>
           )}
-          
         </View>
       </View>
     </View>
@@ -214,8 +233,8 @@ const styles = StyleSheet.create({
 
   container: {
     position: 'absolute',
-    top: height / 2,
-    width: width,
+    top: scrn_height / 2,
+    width: scrn_width,
     alignSelf: 'center',
     zIndex: 999999,
     justifyContent: 'flex-end',
@@ -227,5 +246,10 @@ const styles = StyleSheet.create({
     top: '50%',
     left: '45%',
   },
-  playPauseContainer: {width: 50, height: 50, justifyContent: 'center', alignItems: 'center'},
+  playPauseContainer: {
+    width: 50,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });

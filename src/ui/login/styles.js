@@ -1,11 +1,7 @@
 import {StyleSheet} from 'react-native';
 import colors from '../../theme/colors';
 import fontFamily from '../../theme/fontFamily';
-import {
-  moderateScale,
-  moderateScaleVertical,
-  textScale,
-} from '../../theme/responsiveSize';
+import {rspW, rspH, rspF} from '../../theme/responsiveSize';
 import commonStyles from '../../utils/commonStyles';
 
 const styles = StyleSheet.create({
@@ -16,12 +12,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: 50,
     alignItems: 'center',
-    marginTop: moderateScaleVertical(15),
+    marginTop: rspH(1.84),
   },
-  imageStyle: 
-  {width: 20, height: 20, 
-    marginStart: moderateScale(20)},
-    
+  imageStyle: {width: 20, height: 20, marginStart: rspW(2)},
+
   socialTextStyle: {
     ...commonStyles.fontSize14,
     color: colors.light_black,
@@ -34,20 +28,23 @@ const styles = StyleSheet.create({
   tappingDetail: {
     ...commonStyles.fontSize10,
     color: colors.grey_072,
-    marginTop: moderateScaleVertical(15),
-    marginEnd: moderateScale(20),
+    // marginTop: rspH(1.84),
+    marginTop: rspH(1.84),
+
+    // marginEnd: rspW(2),
     lineHeight: 20,
-    fontSize: textScale(11),
+    fontSize: rspF(1.6),
   },
   socialContainer: {
-    marginTop: moderateScaleVertical(40),
+    marginTop: rspH(4.4),
+    // marginTop: rspH(1.1),
     justifyContent: 'center',
   },
   guestText: {
     ...commonStyles.fontSize14,
     color: colors.grey_072,
     alignSelf: 'center',
-    marginTop: moderateScaleVertical(25),
+    marginTop: rspH(3.4),
   },
 });
 

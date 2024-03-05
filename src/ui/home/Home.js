@@ -5,14 +5,15 @@ import colors from '../../theme/colors';
 import {useUpdateLocation} from '../../hooks/useUpdateLocation';
 import EmergencyStatus from './EmergencyStatus';
 import FeedList from './FeedList';
+// import MobilePhoneUpdateModal from '../../components/MobilePhoneUpdateModal';
 
-
-const Home = (_) => {
-  
-    useUpdateLocation();
+const Home = _ => {
+  useUpdateLocation();
 
   return (
-    <WrapperContainer removeBottomInsetActual={true} statusBarColor={colors.white}>
+    <WrapperContainer
+      removeBottomInsetActual={true}
+      statusBarColor={colors.white}>
       <View style={{flex: 1}}>
         <EmergencyStatus />
         <FeedList />

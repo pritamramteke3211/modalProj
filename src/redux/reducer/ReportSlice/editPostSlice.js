@@ -20,4 +20,3 @@ export const editPostSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const {openEditPostModal} = editPostSlice.actions;
 export default editPostSlice.reducer;
-export const editPostState = (state) => state.editPostSlice;

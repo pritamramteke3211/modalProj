@@ -1,4 +1,3 @@
-
 import React from 'react';
 import {Pressable} from 'react-native';
 
@@ -13,8 +12,7 @@ const FlexSBContainer = ({children, containerStyle, ...any}) => {
         },
         containerStyle,
       ]}
-      {...any}
-    >
+      {...any}>
       {children}
     </Pressable>
   );

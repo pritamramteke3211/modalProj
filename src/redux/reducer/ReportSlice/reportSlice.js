@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
-import { RootState } from '../../store';
+import {RootState} from '../../store';
 
 const initialState = {
   openReportSheet: {
@@ -23,4 +23,4 @@ export const reportSlice = createSlice({
 export const {openReportSheet} = reportSlice.actions;
 
 export default reportSlice.reducer;
-export const reportSliceSelector = (state) => state.reportSheet.openReportSheet;
+export const reportSliceSelector = state => state.reportSheet.openReportSheet;

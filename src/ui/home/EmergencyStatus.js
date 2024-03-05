@@ -1,7 +1,14 @@
-
 import {useNavigation} from '@react-navigation/native';
 import * as React from 'react';
-import {Text, View, StyleSheet, FlatList, Image, Pressable, DeviceEventEmitter} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  FlatList,
+  Image,
+  Pressable,
+  DeviceEventEmitter,
+} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {useSelector} from 'react-redux';
 import FlexSBContainer from '../../components/FlexSBContainer';
@@ -12,7 +19,7 @@ import navigationString from '../../config/navigationString';
 import {emergencyStories} from '../../redux/actions/home';
 import colors from '../../theme/colors';
 import fontFamily from '../../theme/fontFamily';
-import {moderateScale, moderateScaleVertical, textScale} from '../../theme/responsiveSize';
+import {rspW, rspH, rspF} from '../../theme/responsiveSize';
 import commonStyles from '../../utils/commonStyles';
 // import StoriesSlide from '../stories/StoriesSlide';
 import EmergencySkeltonView from './EmergencySkeltonView';
@@ -20,19 +27,17 @@ import {navigate} from '../../service/NavigationService';
 import StoriesSlide from '../stories/StoriesSlide';
 import RadiusModal from '../../components/RadiusModal';
 
-
-const EmergencyStatus = (_) => {
-  
+const EmergencyStatus = _ => {
   const [isLoading, setLoading] = React.useState(false);
-  
+
   const [stories, setStories] = React.useState([]);
-  
+
   const userData = useSelector(state => state.authUser.authUser);
-  
+
   const navigation = useNavigation();
-  
+
   const statusRef = React.useRef();
-  
+
   const radiusHandler = React.useRef();
 
   React.useEffect(() => {
@@ -40,7 +45,6 @@ const EmergencyStatus = (_) => {
   }, []);
 
   React.useEffect(() => {
-
     const listener = DeviceEventEmitter.addListener('emergencyPost', () => {
       getEmergencyPost(false);
     });
@@ -49,25 +53,22 @@ const EmergencyStatus = (_) => {
     };
   }, []);
 
-  const getEmergencyPost = async (showLoading) => {
+  const getEmergencyPost = async showLoading => {
     try {
       showLoading && setLoading(true);
       const emergency = await emergencyStories();
 
       setStories(emergency?.listing);
       setLoading(false);
-    } catch (error) {
-      
-    }
+    } catch (error) {}
   };
 
-//   if (isLoading) {
-//     return <EmergencySkeltonView />;
-//   }
+  if (isLoading) {
+    return <EmergencySkeltonView />;
+  }
 
-  const navigateToStories = (index) => {
+  const navigateToStories = index => {
     statusRef?.current?._handleStoryItemPress(index);
-   
   };
 
   const navigateToEmergency = () => {
@@ -78,9 +79,8 @@ const EmergencyStatus = (_) => {
     navigation.navigate(navigationString.EMERGENCY_POST);
   };
   const openRadiusScreen = () => {
-    
     if (userData?.guest) {
-      navigate(navigationString.MESSAGE);
+      navigation.navigate(navigationString.MESSAGE);
       return;
     }
     radiusHandler.current.openCloseAction(true);
@@ -96,7 +96,14 @@ const EmergencyStatus = (_) => {
   const renderEmergencyStatus = ({item, index}) => {
     return (
       <Pressable style={{}} onPress={() => navigateToStories(index)}>
-        <FastImage key={index} style={[styles.sosImage, styles.emergencyStory]} source={item?.profilePic ? {uri: `${FILE_BASE_URL}${item?.profilePic}`} : imagePath.placeholder}>
+        <FastImage
+          key={index}
+          style={[styles.sosImage, styles.emergencyStory]}
+          source={
+            item?.profilePic
+              ? {uri: `${FILE_BASE_URL}${item?.profilePic}`}
+              : imagePath.placeholder
+          }>
           <Image style={styles.sosLocal} source={imagePath.Sos} />
         </FastImage>
         <Text numberOfLines={1} style={styles.userName}>
@@ -109,29 +116,34 @@ const EmergencyStatus = (_) => {
   return (
     <View style={styles.container}>
       <FlexSBContainer>
-
-         <Pressable onPress={navigateToEmergency}>
-          <FastImage style={styles.sosImage} source={userData?.profilePic ? {uri: userData?.profilePic} : imagePath.placeholder} />
+        <Pressable onPress={navigateToEmergency}>
+          <FastImage
+            style={styles.sosImage}
+            source={
+              userData?.profilePic
+                ? {uri: userData?.profilePic}
+                : imagePath.placeholder
+            }
+          />
           <Text style={styles.title}>{'Add SOS'}</Text>
         </Pressable>
-        
-   
-        <FlatList 
-        style={styles.marginBottom} 
-        horizontal
-        data={stories} 
-        renderItem={renderEmergencyStatus} />
-      
+
+        <FlatList
+          style={styles.marginBottom}
+          horizontal
+          data={stories}
+          renderItem={renderEmergencyStatus}
+        />
+
         <Pressable onPress={openSearch} style={styles.searchContainer}>
           <Image style={styles.imgStyle} source={imagePath.fi_search} />
           <Text style={styles.title}>{'Search'}</Text>
         </Pressable>
-        
-        <Pressable onPress={openRadiusScreen} style={{marginBottom: moderateScaleVertical(10)}}>
+
+        <Pressable onPress={openRadiusScreen} style={{marginBottom: rspH(1)}}>
           <Image style={styles.imgStyle} source={imagePath.fi_map} />
           <Text style={styles.title}>{'Area'}</Text>
         </Pressable>
-
       </FlexSBContainer>
 
       <StoriesSlide data={stories} ref={statusRef} />
@@ -147,8 +159,22 @@ const styles = StyleSheet.create({
   container: {
     padding: 12,
   },
-  userName: {...commonStyles.fontSize12, fontSize: textScale(8), textAlign: 'center', marginStart: 10, marginTop: 5, maxWidth: 60},
-  title: {...commonStyles.fontSize13, fontSize: textScale(11), fontFamily: fontFamily.semibold, color: colors.grey_95, marginTop: moderateScaleVertical(10), textAlign: 'center'},
+  userName: {
+    ...commonStyles.fontSize12,
+    fontSize: rspF(8),
+    textAlign: 'center',
+    marginStart: 10,
+    marginTop: 5,
+    maxWidth: 60,
+  },
+  title: {
+    ...commonStyles.fontSize13,
+    fontSize: rspF(1.6),
+    fontFamily: fontFamily.semibold,
+    color: colors.grey_95,
+    marginTop: rspH(1),
+    textAlign: 'center',
+  },
   sosImage: {
     width: 45,
     height: 45,
@@ -156,8 +182,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   marginBottom: {marginBottom: 7},
-  searchContainer: {marginEnd: moderateScale(20), marginBottom: 10},
+  searchContainer: {marginEnd: rspW(2), marginBottom: 10},
   imgStyle: {width: 25, height: 25, alignSelf: 'center'},
-  emergencyStory: {borderRadius: 10, marginStart: 10, borderWidth: 1.5, borderColor: colors.themeColor},
+  emergencyStory: {
+    borderRadius: 10,
+    marginStart: 10,
+    borderWidth: 1.5,
+    borderColor: colors.themeColor,
+  },
   sosLocal: {position: 'absolute', end: 0, width: 15, height: 15, bottom: 0},
 });
